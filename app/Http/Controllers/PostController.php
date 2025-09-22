@@ -8,12 +8,9 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function index() {
-        // ambil data dari database
-        $posts = Post::all();
-
-        // kirim data ke view
-        return view('posts.index', compact('posts'));
+    public function index(){
+        $posts = Post::all(); //ambil data dari database
+        return view('posts.index', compact('posts')); // kirim data ke view
     }
 
     // menampilkan form create

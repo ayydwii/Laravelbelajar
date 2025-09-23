@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class NumberController extends Controller
 {
     public function isOdd($number) {
-        return $number % 2 != 0 ? 'Ya' : 'Tidak';
+        return $number % 2 != 0 ? 'Ya, ini bilangan genap' : 'Tidak, ini bilangan genap';
     }
 }

@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Tambah Post</h1>
-        <form action="{{ route('posts.store') }}" method="POST">
-            @csrf
-            <input type="text" name="title" placeholder="Judul"><br>
-            <textarea name="content" placeholder="Isi konten"></textarea><br>
-            <button type="submit">Simpan</button>
-        </form>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<h2>Tambah Post</h2>
+
+@if ($errors->any())
+    <div style="background:#f8d7da; padding:10px; border-radius:5px; margin-bottom:10px;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<form action="{{ route('posts.store') }}" method="POST">
+    @csrf
+    <label>Judul</label><br>
+    <input type="text" name="title" value="{{ old('title') }}"><br><br>
+
+    <label>Konten</label><br>
+    <textarea name="content">{{ old('content') }}</textarea><br><br>
+
+    <button type="submit">Simpan</button>
+</form>
+@endsection

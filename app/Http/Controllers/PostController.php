@@ -8,41 +8,54 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function index(){
-        $posts = Post::all(); //ambil data dari database
-        return view('posts.index', compact('posts')); // kirim data ke view
-    }
+    public function index()
+{
+    $posts = Post::latest()->paginate(5); // ✅ Pagination
+    return view('posts.index', compact('posts'));
+}
 
-    // menampilkan form create
-    public function create() {
-        return view('posts.create');
-    }
+public function create()
+{
+    return view('posts.create');
+}
 
-    // simpan data baru
-    public function store(Request $request) {
-        Post::create($request->only(['title', 'content']));
-        return redirect()->route('posts.index');
-    }
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|min:3|max:100',
+        'content' => 'required|min:5',
+    ]);
 
-    // tampilkan detail
-    public function show(Post $post) {
-        return view('posts.show', compact('post'));
-    }
+    Post::create($request->all());
 
-    // tampilkan form edit
-    public function edit(Post $post) {
-        return view('posts.edit', compact('post'));
-    }
+    return redirect()->route('posts.index')
+        ->with('success', 'Data berhasil ditambahkan!');
+}
 
-    // update data
-    public function update(Request $request, Post $post) {
-        $post->update($request->only(['title', 'content']));
-        return redirect()->route('posts.index');
-    }
+public function edit(Post $post)
+{
+    return view('posts.edit', compact('post'));
+}
 
-    // hapus data
-    public function destroy(Post $post) {
-        $post->delete();
-        return redirect()->route('posts.index');
-    }
+public function update(Request $request, Post $post)
+{
+    $request->validate([
+        'title' => 'required|min:3|max:100',
+        'content' => 'required|min:5',
+    ]);
+
+    $post->update($request->all());
+
+    return redirect()->route('posts.index')
+        ->with('success', 'Data berhasil diupdate!');
+}
+
+public function destroy(Post $post)
+{
+    $post->delete();
+
+    return redirect()->route('posts.index')
+        ->with('success', 'Data berhasil dihapus!');
+}
+
 }

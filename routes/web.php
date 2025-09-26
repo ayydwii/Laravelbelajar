@@ -7,6 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::resource('posts', PostController::class);
+
 // Route::get('/product', function () {
 //     return view('product.hello');
 // });
@@ -22,7 +25,7 @@ Route::get('/', function () {
 // Tugas 1, buat route untuk menampilkan bilangan ganjil/genap
 
 // Ini cara 1, pakai controller
-Route::get('/ganjil/{number}', [App\Http\Controllers\NumberController::class, 'isOdd']);
+// Route::get('/ganjil/{number}', [App\Http\Controllers\NumberController::class, 'isOdd']);
 
 // Ini cara 2, langsung di web.php
 // Route::get('/ganjil/{number}', function ($number) {

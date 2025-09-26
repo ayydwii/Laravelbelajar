@@ -1,18 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Edit Post</h1>
-        <form action="{{ route('posts.update', $post->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <input type="text" name="title" value="{{ $post->title }}"><br>
-            <textarea name="content">{{ $post->content }}</textarea><br>
-            <button type="submit">Update</button>
-        </form>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<h2>Edit Post</h2>
+
+@if ($errors->any())
+    <div style="background:#f8d7da; padding:10px; border-radius:5px; margin-bottom:10px;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<form action="{{ route('posts.update', $post->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+
+    <label>Judul</label><br>
+    <input type="text" name="title" value="{{ old('title', $post->title) }}"><br><br>
+
+    <label>Konten</label><br>
+    <textarea name="content">{{ old('content', $post->content) }}</textarea><br><br>
+
+    <button type="submit">Update</button>
+</form>
+@endsection

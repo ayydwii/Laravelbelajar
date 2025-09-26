@@ -1,40 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Post</title>
-</head>
-<body>
-    <h1>Daftar Post</h1>
+@extends('layouts.app')
 
-    <a href="{{ route('posts.create') }}">Tambah Post</a>
+@section('content')
+<h2>Daftar Post</h2>
 
-        <table border="1" cellpadding="8">
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Aksi</th>
-            </tr>
+@if ($message = Session::get('success'))
+    <div style="background:#d1e7dd; padding:10px; margin-bottom:10px; border-radius:5px;">
+        {{ $message }}
+    </div>
+@endif
 
-        @foreach ($posts as $post)
-            <tr>
-                <td>{{ $post->id }}</td>
-                <td>{{ $post->title }}</td>
-                <td>{{ $post->content }}</td>
-                <td>
-                    <a href="{{ route('posts.show', $post->id) }}">Lihat</a> |
-                    <a href="{{ route('posts.edit', $post->id) }}">Edit</a> |
-                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin hapus data ini?')">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
+<a href="{{ route('posts.create') }}">+ Tambah Post</a>
+
+<table border="1" cellpadding="10" cellspacing="0" style="margin-top:10px; width:100%;">
+    <tr>
+        <th>No</th>
+        <th>Judul</th>
+        <th>Konten</th>
+        <th>Aksi</th>
+    </tr>
+    @foreach ($posts as $post)
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $post->title }}</td>
+        <td>{{ Str::limit($post->content, 50) }}</td>
+        <td>
+            <a href="{{ route('posts.edit', $post->id) }}">Edit</a> |
+            <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Yakin hapus?')">Hapus</button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
 </table>
 
-</body>
-</html>
+<div style="margin-top:10px;">
+    {{ $posts->links() }}
+</div>
+@endsection

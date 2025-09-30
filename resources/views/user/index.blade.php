@@ -5,6 +5,12 @@
         .table th, .table td {
             vertical-align: middle;
         }
+        .user-photo {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
     </style>
 @endpush
 
@@ -42,7 +48,8 @@
             <thead class="table-dark">
                 <tr>
                     <th style="width: 50px">No</th>
-                    <th>Username</th>
+                    <th>Foto</th>
+                    {{-- <th>Username</th> --}}
                     <th>Nama</th>
                     <th>Email</th>
                     <th style="width: 150px">Aksi</th>
@@ -51,11 +58,22 @@
             <tbody>
                 @forelse ($users as $user)
                     <tr>
-                        {{-- Nomor urut yang aman, baik untuk paginator maupun collection biasa --}}
+                        {{-- Nomor urut --}}
                         <td>
                             {{ $users->firstItem() ? $users->firstItem() + $loop->index : $loop->iteration }}
                         </td>
-                        <td>{{ $user->username }}</td>
+
+                        {{-- Foto user --}}
+                        <td>
+                            @if($user->photo)
+                                <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto" class="user-photo">
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+
+                        {{-- Data lainnya --}}
+                        {{-- <td>{{ $user->username }}</td> --}}
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
@@ -68,7 +86,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">Belum ada data user</td>
+                        <td colspan="6" class="text-center">Belum ada data user</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -76,11 +94,9 @@
     </div>
 
     {{-- Pagination --}}
-    @if($users instanceof \Illuminate\Pagination\LengthAwarePaginator)
-        <div class="mt-3">
-            {{ $users->links('pagination::bootstrap-5') }}
-        </div>
-    @endif
+    <div class="mt-3">
+        {{ $users->links('pagination::bootstrap-5') }}
+    </div>
 @endsection
 
 @push('scripts')

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -13,16 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        // $users = User::all();
-
-        // return view('user.index', [
-        //     'users' => $users,
-        // ]);
-
         $users = User::orderBy('id', 'desc')->paginate(10);
         return view('user.index', compact('users'));
-
     }
 
     /**
@@ -30,12 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-
-        $users = User::all();
-
-        return view('user.create', [
-            'users' => $users,
-        ]);
+        return view('user.create');
     }
 
     /**
@@ -44,17 +32,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            // 'username' => 'required|string|max:100|unique:users',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {
             $imageName = time().'.'.$request->photo->extension();
-            $request->photo->move(public_path('images'), $imageName);
+            $request->photo->move(public_path('photos'), $imageName);
             $validated['photo'] = $imageName;
         }
+
+        $validated['password'] = Hash::make($validated['password']); // jangan lupa hash password
 
         User::create($validated);
 
@@ -66,45 +57,64 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        // uppload photo
-        if ($request->hasFile('photo')) {
-            $imageName = time().'.'.$request->photo->extension();
-            $request->photo->move(public_path('images'), $imageName);
-            $validated['photo'] = $imageName;
-        }
-
-        $user->update($validated);
-        return redirect()->route('users.index')->with('success', 'User berhasil diupdate.');
+        return view('user.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('user.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'username' => 'required|string|max:100|unique:users,username,'.$user->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            // hapus foto lama jika ada
+            if ($user->photo && File::exists(public_path('photos/'.$user->photo))) {
+                File::delete(public_path('photos/'.$user->photo));
+            }
+
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('photos'), $imageName);
+            $validated['photo'] = $imageName;
+        }
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']); // biar nggak keubah kalau kosong
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        // hapus foto kalau ada
+        if ($user->photo && File::exists(public_path('photos/'.$user->photo))) {
+            File::delete(public_path('photos/'.$user->photo));
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 }

@@ -26,16 +26,16 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('home') }}">
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                                 <span data-feather="home"></span>
                                 Dashboard
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('users.index') }}">
-                                <span data-feather="home"></span>
-                                Data User
+                            <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                <span data-feather="users"></span>
+                                User
                             </a>
                         </li>
                     </ul>

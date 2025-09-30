@@ -39,12 +39,14 @@ class UserController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        // simpan foto
         if ($request->hasFile('photo')) {
             $imageName = time().'.'.$request->photo->extension();
             $request->photo->move(public_path('photos'), $imageName);
             $validated['photo'] = $imageName;
         }
 
+        // hash password
         $validated['password'] = Hash::make($validated['password']); // jangan lupa hash password
 
         User::create($validated);
@@ -76,27 +78,22 @@ class UserController extends Controller
         $validated = $request->validate([
             // 'username' => 'required|string|max:100|unique:users,username,'.$user->id,
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'email' => 'require=d|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:6|confirmed',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {
-            // hapus foto lama jika ada
-            if ($user->photo && File::exists(public_path('photos/'.$user->photo))) {
-                File::delete(public_path('photos/'.$user->photo));
-            }
-
-            // simpan foto baru
             $imageName = time().'.'.$request->photo->extension();
             $request->photo->move(public_path('photos'), $imageName);
             $validated['photo'] = $imageName;
-        }
+            }
 
+        // hash saat mengisi password
         if (!empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
+            $validated['password'] = bcsqrt($validated['password']);
         } else {
-            unset($validated['password']); // biar nggak keubah kalau kosong
+            unset($validated['password']); // biar nggak berubah kalau kosong
         }
 
         $user->update($validated);

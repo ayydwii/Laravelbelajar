@@ -1,47 +1,40 @@
 @extends('layouts.app')
 
-@push('styles')
-@endpush
-
-@section('title', 'Halaman User')
-@section('header-title', 'Halaman User')
+@section('title', 'Halaman Tambah User')
+@section('header-title', 'Halaman Tambah User')
 
 @section('content')
-    <h2>Tambah User</h2>
+    <h4>Tambah User</h4>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <form action="{{ route('users.store') }}" method="POST">
+    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label>Username</label><br>
-        <input type="text" name="username" value="{{ old('username') }}"><br><br>
 
-        <label>Nama</label><br>
-        <input type="text" name="name" value="{{ old('name') }}"><br><br>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+        </div>
 
-        <label>Email</label><br>
-        <input type="email" name="email" value="{{ old('email') }}"><br><br>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+        </div>
 
-        <label>Password</label><br>
-        <input type="password" name="password"><br><br>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+        </div>
 
-        <button type="submit">Simpan</button>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 @endsection
-
-@push('scripts')
-@endpush

@@ -14,11 +14,15 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::all();
+        // $users = User::all();
 
-        return view('user.index', [
-            'users' => $users,
-        ]);
+        // return view('user.index', [
+        //     'users' => $users,
+        // ]);
+
+        $users = User::orderBy('id', 'desc')->paginate(10);
+        return view('user.index', compact('users'));
+
     }
 
     /**
@@ -42,7 +46,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:6|confirmed',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -62,7 +66,22 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // uppload photo
+        if ($request->hasFile('photo')) {
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('images'), $imageName);
+            $validated['photo'] = $imageName;
+        }
+
+        $user->update($validated);
+        return redirect()->route('users.index')->with('success', 'User berhasil diupdate.');
     }
 
     /**

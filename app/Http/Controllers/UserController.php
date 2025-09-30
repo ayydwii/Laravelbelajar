@@ -39,7 +39,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('images'), $imageName);
+            $validated['photo'] = $imageName;
+        }
+
+        User::create($validated);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     /**

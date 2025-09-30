@@ -51,7 +51,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="photo" class="form-label">Photo</label>
+            <label for="photo" class="form-label">Foto</label>
             <input type="file" class="form-control @error('photo') is-invalid @enderror"
                     id="photo" name="photo" accept="image/*">
             @error('photo')

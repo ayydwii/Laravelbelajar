@@ -48,34 +48,26 @@
             <thead class="table-dark">
                 <tr>
                     <th style="width: 50px">No</th>
-                    <th>Foto</th>
-                    {{-- <th>Username</th> --}}
                     <th>Nama</th>
+                    {{-- <th>Username</th> --}}
                     <th>Email</th>
+                    <th>Foto</th>
                     <th style="width: 150px">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($users as $user)
                     <tr>
-                        {{-- Nomor urut --}}
-                        <td>
-                            {{ $users->firstItem() ? $users->firstItem() + $loop->index : $loop->iteration }}
-                        </td>
-
-                        {{-- Foto user --}}
+                        <td>{{ $loop->iteration + ($users->firstItem() - 1) }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
                         <td>
                             @if($user->photo)
-                                <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto {{ $user->name}}" width="80">
+                                <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto {{ $user->name }}" width="60">
                             @else
                                 <span class="text-muted">-</span>
                             @endif
                         </td>
-
-                        {{-- Data lainnya --}}
-                        {{-- <td>{{ $user->username }}</td> --}}
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
                         <td>
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
@@ -86,7 +78,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Belum ada data user</td>
+                        <td colspan="5" class="text-center">Belum ada data user</td>
                     </tr>
                 @endforelse
             </tbody>

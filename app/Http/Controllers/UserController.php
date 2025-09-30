@@ -74,7 +74,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:100|unique:users,username,'.$user->id,
+            // 'username' => 'required|string|max:100|unique:users,username,'.$user->id,
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:6|confirmed',
@@ -87,6 +87,7 @@ class UserController extends Controller
                 File::delete(public_path('photos/'.$user->photo));
             }
 
+            // simpan foto baru
             $imageName = time().'.'.$request->photo->extension();
             $request->photo->move(public_path('photos'), $imageName);
             $validated['photo'] = $imageName;

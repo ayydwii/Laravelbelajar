@@ -41,7 +41,7 @@
 
         {{-- Password opsional saat edit --}}
         <div class="mb-3">
-            <label for="password" class="form-label">Password (Kosongkan jika tidak diubah)</label>
+            <label for="password" class="form-label">Password (Opsional)</label>
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
             @error('password')
                 <div class="invalid-feedback">{{ $message }}</div>

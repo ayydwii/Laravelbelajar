@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
 {
-    $posts = Post::latest()->paginate(5); // ✅ Pagination
+    $posts = Post::latest()->paginate(5); // menampilkan 5 data per halaman
     return view('posts.index', compact('posts'));
 }
 

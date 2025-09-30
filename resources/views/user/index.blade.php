@@ -66,7 +66,7 @@
                         {{-- Foto user --}}
                         <td>
                             @if($user->photo)
-                                <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto" class="user-photo">
+                                <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto {{ $user->name}}" width="80">
                             @else
                                 <span class="text-muted">-</span>
                             @endif

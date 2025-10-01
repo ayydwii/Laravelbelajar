@@ -4,8 +4,6 @@
 @section('header-title', 'Edit User')
 
 @section('content')
-    <h4>Edit User</h4>
-
     <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf @method('PUT')
 

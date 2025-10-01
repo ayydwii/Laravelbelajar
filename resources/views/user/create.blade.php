@@ -4,8 +4,6 @@
 @section('header-title', 'Halaman Tambah User')
 
 @section('content')
-    <h4>Tambah User</h4>
-
     <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 

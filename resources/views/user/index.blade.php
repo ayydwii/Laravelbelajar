@@ -39,13 +39,12 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Daftar User</h4>
         <a href="{{ route('users.create') }}" class="btn btn-primary">+ Tambah User</a>
     </div>
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
-            <thead class="table-dark">
+            <thead class="table-primary">
                 <tr>
                     <th style="width: 50px">No</th>
                     <th>Nama</th>
@@ -69,11 +68,18 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus user ini?')">Hapus</button>
-                            </form>
+                            <div class="btn-group" role="group" aria-label="Aksi">
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">Show</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

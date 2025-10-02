@@ -7,7 +7,7 @@
     <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf @method('PUT')
 
-        {{-- <div class="mb-3">
+        <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" name="username"
                     class="form-control @error('username') is-invalid @enderror"
@@ -15,7 +15,7 @@
             @error('username')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-        </div> --}}
+        </div>
 
         <div class="mb-3">
             <label for="name" class="form-label">Nama</label>

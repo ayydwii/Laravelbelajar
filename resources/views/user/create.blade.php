@@ -7,14 +7,14 @@
     <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        {{-- <div class="mb-3">
+        <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control @error('username') is-invalid @enderror"
                     id="username" name="username" value="{{ old('username') }}" required>
             @error('username')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-        </div> --}}
+        </div>
 
         <div class="mb-3">
             <label for="name" class="form-label">Nama</label>

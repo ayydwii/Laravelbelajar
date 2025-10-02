@@ -48,7 +48,7 @@
                 <tr>
                     <th style="width: 50px">No</th>
                     <th>Nama</th>
-                    {{-- <th>Username</th> --}}
+                    <th>Username</th>
                     <th>Email</th>
                     <th>Foto</th>
                     <th style="width: 150px">Aksi</th>
@@ -59,7 +59,9 @@
                     <tr>
                         <td>{{ $loop->iteration + ($users->firstItem() - 1) }}</td>
                         <td>{{ $user->name }}</td>
+                        <td>{{ $user->username }}</td>
                         <td>{{ $user->email }}</td>
+
                         <td>
                             @if($user->photo)
                                 <img src="{{ asset('photos/'.$user->photo) }}" alt="Foto {{ $user->name }}" width="60">
@@ -68,9 +70,9 @@
                             @endif
                         </td>
                         <td>
-                            <div class="btn-group" role="group" aria-label="Aksi">
-                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">Show</a>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm rounded">Show</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm roundedpu">Edit</a>
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

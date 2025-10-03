@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -11,6 +12,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::resource('posts', PostController::class);
 
 Route::resource('users', UserController::class);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
 // Route::get('/product', function () {

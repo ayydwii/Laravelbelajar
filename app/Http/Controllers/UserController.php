@@ -39,6 +39,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        
         // dd($validated);
         // simpan foto
         if ($request->hasFile('photo')) {

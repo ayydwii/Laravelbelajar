@@ -14,17 +14,35 @@
             <div class="card-body text-light">
                 <h3 class="text-center mb-4 fw-semibold">Selamat Datang</h3>
 
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-success">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <div class="mb-3">
                         <label for="username" class="form-label text-light">Username</label>
                         <input type="text" id="username" name="username" class="form-control bg-dark text-light border-0 shadow-sm" required autofocus>
+                        @error('username')
+                            <div class="text-danger mt-1" style="font-size: 0.875em;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-4">
                         <label for="password" class="form-label text-light">Password</label>
                         <input type="password" id="password" name="password" class="form-control bg-dark text-light border-0 shadow-sm" required>
+                        @error('password')
+                            <div class="text-danger mt-1" style="font-size: 0.875em;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-semibold shadow">

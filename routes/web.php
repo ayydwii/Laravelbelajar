@@ -1,50 +1,40 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DashboardController;
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Auth::routes([
+//     'reset' => false,
+//     'verify' => false,
+// ]);
 
+Route::group([
+	'middleware' => ['auth'],
+], function () {
+	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('posts', PostController::class);
-
-Route::resource('users', UserController::class);
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-
-// Route::get('/product', function () {
-//     return view('product.hello');
-// });
-
-// Route::get('/about', function () {
-//     return Hello;
-// });
-
-//
-
-
-// TUGAS MAS IVAN CHEEECK
-// Tugas 1, buat route untuk menampilkan bilangan ganjil/genap
-
-// Ini cara 1, pakai controller
-// Route::get('/ganjil/{number}', [App\Http\Controllers\NumberController::class, 'isOdd']);
-
-// Ini cara 2, langsung di web.php
-// Route::get('/ganjil/{number}', function ($number) {
-//     if ($number % 2 != 0) {
-//         return "$number adalah bilangan ganjil.";
-//     } else {
-//         return "$number bukan bilangan ganjil.";
-//     }
-// });
-
-
-// Tugas 2, bikin route untuk CRUD Post dengan kolom => id, title, content dan outputnya adalah data dari post
-Route::resource('posts', PostController::class);
+    // 🔽 Bagian middleware Admin sementara dikomentari biar bisa akses /users tanpa login admin
+    Route::group([
+        'middleware' => ['Admin'],
+    ],
+    function () {
+        Route::resource('users', App\Http\Controllers\UserController::class);
+    });
+});
 
 
 
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+
+require __DIR__.'/auth.php';

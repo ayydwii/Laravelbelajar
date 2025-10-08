@@ -51,6 +51,7 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th>Foto</th>
+                    <th>Role</th>
                     <th style="width: 150px">Aksi</th>
                 </tr>
             </thead>
@@ -69,6 +70,9 @@
                                 <span class="text-muted">-</span>
                             @endif
                         </td>
+
+                        <td>{{ $user->role == 1 ? 'Admin' : 'User' }}</td>
+                        
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm rounded">Show</a>

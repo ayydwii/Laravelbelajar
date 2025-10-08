@@ -32,12 +32,14 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
-                                <span data-feather="users"></span>
-                                Data User
-                            </a>
-                        </li>
+                        @if (Auth::user() && Auth::user()->role === 1)
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                    <span data-feather="users"></span>
+                                    Data User
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </nav>

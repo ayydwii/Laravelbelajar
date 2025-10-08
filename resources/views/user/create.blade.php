@@ -8,6 +8,17 @@
         @csrf
 
         <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
+                <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>Admin</option>
+                <option value="2" {{ old('role') == '2' ? 'selected' : '' }}>User</option>
+            </select>
+            @error('role')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control @error('username') is-invalid @enderror"
                     id="username" name="username" value="{{ old('username') }}" required>

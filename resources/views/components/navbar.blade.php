@@ -11,14 +11,12 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    {{-- Menu Kanan (Sign Out) --}}
     <div class="navbar-nav ms-auto">
         <div class="nav-item text-nowrap">
 
-            {{-- Form Logout Sesungguhnya --}}
-            <form action="URL_UNTUK_LOGOUT" method="POST" class="d-inline">
-                {{-- @csrf --}} <button type="submit" class="nav-link px-3 text-white bg-transparent border-0"
-                        title="Sign Out">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-sm border-0 rounded-0">
                     <i class="bi bi-box-arrow-right"></i> Sign out
                 </button>
             </form>

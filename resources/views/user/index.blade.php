@@ -1,17 +1,6 @@
 @extends('layouts.app')
 
 @push('styles')
-    <style>
-        .table th, .table td {
-            vertical-align: middle;
-        }
-        .user-photo {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-    </style>
 @endpush
 
 @section('title', 'Halaman User')
@@ -72,7 +61,7 @@
                         </td>
 
                         <td>{{ $user->role == 1 ? 'Admin' : 'User' }}</td>
-                        
+
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm rounded">Show</a>

@@ -3,18 +3,30 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        return $next($request);
+            $user = Auth::user();
+            if (
+                $user &&
+                    $user->role == 1
+                ) {
+                return $next($request);
+            } else {
+                Auth::logout();
+                return redirect('login')
+                    ->with('error', "Anda tidak memiliki akses !");
+            }
     }
 }

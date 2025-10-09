@@ -7,71 +7,104 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
-
-
 class PostController extends Controller
 {
     public function index()
-{
-    $posts = Post::with('user')->latest()->paginate(5);
-    return view('posts.index', ['posts' => $posts]);
-}
-
-public function create()
-{
-    return view('posts.create');
-}
-
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'title' => 'required|min:3|max:255',
-        'content' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'publish_date' => 'nullable|date',
-        'is_published' => 'boolean',
-    ]);
-
-    if ($request->hasFile('image')) {
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images/posts'), $imageName);
-        $validated['image'] = $imageName;
+    {
+        $posts = Post::with('user')->latest()->get();
+        return view('posts.index', compact('posts'));
     }
 
-    $validated['user_id'] = Auth::id();
-    Post::create($validated);
-
-    return redirect()->route('posts.index')
-        ->with('success', 'Data berhasil ditambahkan!');
-}
-
-public function edit(Post $post)
-{
-    return view('posts.edit', ['post' => $post]);
-}
-
-public function update(Request $request, Post $post)
-{
-    $request->validate([
-        'title' => 'required|min:3|max:100',
-        'content' => 'required|min:5',
-    ]);
-
-    $post->update($request->all());
-
-    return redirect()->route('posts.index')
-        ->with('success', 'Data berhasil diupdate!');
-}
-
-public function destroy(Post $post)
-{
-    if ($post->image && File::exists(public_path('images/posts/' . $post->image))) {
-        File::delete(public_path('images/posts/' . $post->image));
+    public function create()
+    {
+        return view('posts.create');
     }
-    $post->delete();
 
-    return redirect()->route('posts.index')
-        ->with('success', 'Data berhasil dihapus!');
-}
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|min:3|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'publish_date' => 'nullable|date',
+            'is_featured' => 'nullable|boolean',
+        ]);
 
+        // Checkbox
+        $validated['is_featured'] = $request->has('is_featured');
+
+        // Upload image
+        if ($request->hasFile('image')) {
+            if (!File::exists(public_path('images/posts'))) {
+                File::makeDirectory(public_path('images/posts'), 0755, true);
+            }
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/posts'), $imageName);
+            $validated['image'] = $imageName;
+        }
+
+        $validated['user_id'] = Auth::id();
+        Post::create($validated);
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Data berhasil ditambahkan!');
+    }
+
+    public function edit(Post $post)
+    {
+        if ($post->user_id !== Auth::user()->is_admin) {
+            abort(403, 'Kamu tidak memiliki akses untuk mengedit post ini');
+        }
+
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        if ($post->user_id !== Auth::user()->is_admin) {
+            abort(403, 'Kamu tidak memiliki akses untuk mengedit post ini');
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|min:3|max:255',
+            'content' => 'required|min:5',
+            'publish_date' => 'nullable|date',
+            'is_featured' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Checkbox
+        $validated['is_featured'] = $request->has('is_featured');
+
+        // Upload image baru jika ada
+        if ($request->hasFile('image')) {
+            // Hapus file lama
+            if ($post->image && File::exists(public_path('images/posts/' . $post->image))) {
+                File::delete(public_path('images/posts/' . $post->image));
+            }
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/posts'), $imageName);
+            $validated['image'] = $imageName;
+        }
+
+        $post->update($validated);
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Data berhasil diupdate!');
+    }
+
+    public function destroy(Post $post)
+    {
+        if ($post->user_id !== Auth::user()->is_admin) {
+            abort(403, 'Kamu tidak memiliki akses untuk mengedit post ini');
+        }
+        
+        if ($post->image && File::exists(public_path('images/posts/' . $post->image))) {
+            File::delete(public_path('images/posts/' . $post->image));
+        }
+        $post->delete();
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Data berhasil dihapus!');
+    }
 }

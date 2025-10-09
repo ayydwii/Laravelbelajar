@@ -3,13 +3,13 @@
 @push('styles')
 @endpush
 
-@section('title', 'Halaman Dashboard')
-@section('header-title', 'Halaman Dashboard')
+@section('title', 'Dashboard')
+@section('header-title', 'Dashboard')
 
 @section('content')
     <div class="card p-4 shadow-sm">
         <h4>Selamat Datang, {{ $user->name ?? 'Admin' }}</h4>
-        <p>Ini adalah halaman dashboard. Silakan pilih menu di sidebar untuk mengelola data.</p>
+        <p>I. Silakan pilih menu di sidebar untuk mengelola data.</p>
 
         <div class="mt-4">
             <h5>Ringkasan</h5>

@@ -22,29 +22,48 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                                <span data-feather="home"></span>
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">
+                                <span data-feather="home" style="color: #f8fafc;"></span>
                                 Dashboard
                             </a>
                         </li>
 
                         @if (Auth::user() && Auth::user()->role === 1)
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
-                                    <span data-feather="users"></span>
-                                    Data User
+                                <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"
+                                    href="{{ route('users.index') }}">
+                                    <span data-feather="users" style="color: #f8fafc;"></span>
+                                    User
                                 </a>
                             </li>
                         @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('posts.*') ? 'active' : '' }}"
+                                href="{{ route('posts.index') }}">
+                                <span data-feather="file-text" style="color: "></span>
+                                Post
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}"
+                                href="{{ route('profile.index') }}">
+                                <span data-feather="tag" style="color: #f8fafc;"></span>
+                                Category
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="background:#fff; color:#222; border-radius:12px; margin-top:16px;">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">@yield('header-title', 'Data User')</h1>

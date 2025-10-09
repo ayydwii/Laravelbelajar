@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 });
 
+Route::resource('posts', PostController::class);
+
 
 
 

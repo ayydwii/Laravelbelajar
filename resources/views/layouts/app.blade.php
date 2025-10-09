@@ -55,7 +55,7 @@
                             <a class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}"
                                 href="{{ route('profile.index') }}">
                                 <span data-feather="tag" style="color: #f8fafc;"></span>
-                                Category
+                                Profile
                             </a>
                         </li>
                     </ul>

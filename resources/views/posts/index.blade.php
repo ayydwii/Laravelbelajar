@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Daftar Post</h2>
+{{-- <h2>Daftar Post</h2> --}}
 
 @if ($message = Session::get('success'))
     <div style="background:#d1e7dd; padding:10px; margin-bottom:10px; border-radius:5px;">
@@ -9,7 +9,9 @@
     </div>
 @endif
 
-<a href="{{ route('posts.create') }}">+ Tambah Post</a>
+<a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-lg"></i> Tambah Post
+</a>
 
 <table border="1" cellpadding="10" cellspacing="0" style="margin-top:10px; width:100%;">
     <tr>

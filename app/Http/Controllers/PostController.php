@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 
 class PostController extends Controller
 {
     public function index()
 {
-    $posts = Post::latest()->paginate(5); // menampilkan 5 data per halaman
-    return view('posts.index', compact('posts'));
+    $posts = Post::with('user')->latest()->paginate(5);
+    return view('posts.index', ['posts' => $posts]);
 }
 
 public function create()
@@ -21,12 +24,22 @@ public function create()
 
 public function store(Request $request)
 {
-    $request->validate([
-        'title' => 'required|min:3|max:100',
-        'content' => 'required|min:5',
+    $validated = $request->validate([
+        'title' => 'required|min:3|max:255',
+        'content' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'publish_date' => 'nullable|date',
+        'is_published' => 'boolean',
     ]);
 
-    Post::create($request->all());
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images/posts'), $imageName);
+        $validated['image'] = $imageName;
+    }
+
+    $validated['user_id'] = Auth::id();
+    Post::create($validated);
 
     return redirect()->route('posts.index')
         ->with('success', 'Data berhasil ditambahkan!');
@@ -34,7 +47,7 @@ public function store(Request $request)
 
 public function edit(Post $post)
 {
-    return view('posts.edit', compact('post'));
+    return view('posts.edit', ['post' => $post]);
 }
 
 public function update(Request $request, Post $post)
@@ -52,6 +65,9 @@ public function update(Request $request, Post $post)
 
 public function destroy(Post $post)
 {
+    if ($post->image && File::exists(public_path('images/posts/' . $post->image))) {
+        File::delete(public_path('images/posts/' . $post->image));
+    }
     $post->delete();
 
     return redirect()->route('posts.index')

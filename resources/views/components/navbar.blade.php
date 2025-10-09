@@ -1,7 +1,7 @@
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow-lg">
     {{-- Merek / Judul --}}
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 fw-bold text-uppercase" href="#">
-        <i class="bi bi-gear-fill me-1"></i> ADMIN DASHBOARD
+        <i class="bi bi-gear-fill me-1"></i> Tugas Mas Ivan
     </a>
 
     {{-- Tombol Toggle Sidebar untuk Mobile --}}
@@ -11,12 +11,12 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="navbar-nav ms-auto">
+    <div class="navbar-nav ms-auto me-3">
         <div class="nav-item text-nowrap">
 
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                 @csrf
-                <button type="submit" class="btn btn-dark btn-sm border-0 rounded-0">
+                <button type="submit" class="btn btn-lg btn-signout px-4 py-2 rounded-pill fw-bold" style="font-size:16px;">
                     <i class="bi bi-box-arrow-right"></i> Sign out
                 </button>
             </form>

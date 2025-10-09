@@ -8,8 +8,8 @@
 
 @section('content')
     <div class="card p-4 shadow-sm">
-        <h4>Selamat Datang, {{ $user->name ?? 'Pengguna' }}</h4>
-        <p>Ini adalah halaman dashboard admin. Silakan pilih menu di sidebar untuk mengelola data.</p>
+        <h4>Selamat Datang, {{ $user->name ?? 'Admin' }}</h4>
+        <p>Ini adalah halaman dashboard. Silakan pilih menu di sidebar untuk mengelola data.</p>
 
         <div class="mt-4">
             <h5>Ringkasan</h5>

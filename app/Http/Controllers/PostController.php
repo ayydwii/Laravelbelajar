@@ -23,7 +23,14 @@ class PostController extends Controller
             ->paginate(6);
 
         return view('posts.index', compact('posts', 'keyword'));
-}
+    }
+
+    public function show($id)
+    {
+        $post = Post::with('user')->findOrFail($id);
+        return view('posts.show', compact('post'));
+    }
+
 
 
     public function create()

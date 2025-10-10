@@ -13,7 +13,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Hanya admin yang bisa kelola user
     Route::middleware(['admin'])->group(function () {
-        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::get('/admin/users/index', [App\Http\Controllers\UserController::class, 'index'])
+        ->name('users.index');
     });
 
     // Profile

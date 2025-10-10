@@ -14,12 +14,13 @@
     <div class="navbar-nav ms-auto me-3">
         <div class="nav-item text-nowrap">
 
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-lg btn-signout px-4 py-2 rounded-pill fw-bold" style="font-size:16px;">
-                    <i class="bi bi-box-arrow-right"></i> Sign out
+                <button type="submit" class="btn btn-danger">
+                    Logout
                 </button>
             </form>
+
 
         </div>
     </div>

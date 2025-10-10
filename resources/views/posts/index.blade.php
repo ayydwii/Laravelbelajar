@@ -11,23 +11,17 @@
 
     <!-- Header: Tombol Tambah + Pencarian -->
     <div class="d-flex justify-content-between align-items-center mb-5">
-        <!-- Tombol Tambah Post di Kiri -->
         <a href="{{ route('posts.create') }}" class="btn btn-success">
             + Tambah Post
         </a>
 
-        <!-- Form Pencarian di Kanan -->
-        <form action="{{ route('posts.index') }}" method="GET" class="d-flex" style="width: 350px; gap: 8px;">
+        <form action="{{ route('posts.index') }}" method="GET" class="d-flex" style="width: 250px; gap: 8px;">
             <input type="text" name="search" value="{{ request('search') }}"
-                    class="form-control form-control-sm"
-                    placeholder="Cari post...">
+                class="form-control form-control-sm"
+                placeholder="Cari post...">
             <button type="submit" class="btn btn-sm btn-primary">Cari</button>
         </form>
     </div>
-
-
-
-
 
     <!-- Grid Post -->
     <div class="row g-4">

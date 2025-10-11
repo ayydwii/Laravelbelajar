@@ -10,23 +10,32 @@ use Illuminate\Support\Facades\File;
 class UserController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    // Ambil kata kunci pencarian (jika ada)
+    $search = $request->input('search');
 
-        $users = User::query()
-            ->when($search, function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
-                            ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->latest()
-            ->paginate(5);
+    // Query dasar untuk ambil semua user
+    $query = \App\Models\User::query();
 
-        return view('user.index', compact('users'));
+    // Jika ada pencarian, filter berdasarkan nama, username, atau email
+    if (!empty($search)) {
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+                ->orWhere('username', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+        });
     }
+
+    // Urutkan berdasarkan waktu dibuat terbaru dan paginasi
+    $users = $query->orderBy('created_at', 'desc')->paginate(5);
+
+    // Kembalikan ke view
+    return view('users.index', compact('users'));
+}
 
     public function create()
     {
-        return view('user.create');
+        return view('users.create');
     }
 
     public function store(Request $request)
@@ -50,17 +59,17 @@ class UserController extends Controller
 
         User::create($validated);
 
-        return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function show(User $user)
     {
-        return view('user.show', compact('user'));
+        return view('users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
@@ -92,7 +101,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui');
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui');
     }
 
     public function destroy(User $user)
@@ -103,6 +112,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 }

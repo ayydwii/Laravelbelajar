@@ -17,6 +17,7 @@
 
         <div class="mt-4">
             <a href="{{ route('users.index') }}" class="btn btn-primary">Kelola User</a>
+            <a href="{{ route('users.index') }}" class="btn btn-primary">Kelola User</a>
             <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kelola Post</a>
             <a href="{{ route('profile.index') }}" class="btn btn-info">Profil</a>
         </div>

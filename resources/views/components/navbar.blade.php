@@ -14,12 +14,13 @@
     <div class="navbar-nav ms-auto me-3">
         <div class="nav-item text-nowrap">
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-danger">
-                    Logout
-                </button>
-            </form>
+        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="btn btn-danger btn-sm">
+                Logout
+            </button>
+        </form>
+
 
 
         </div>

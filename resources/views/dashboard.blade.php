@@ -1,17 +1,39 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+@push('styles')
+@endpush
+
+@section('title', 'Dashboard')
+@section('header-title', 'Dashboard')
+
+@section('content')
+<div class="container mt-4">
+
+    {{-- Tampilkan isi berbeda tergantung role --}}
+    @if (Auth::user()->role == 1)
+        {{-- Halaman untuk admin --}}
+        <h3>Halo, Admin</h3>
+        <p>Selamat datang di dashboard admin. Di sini kamu bisa mengelola user, post, dan profil.</p>
+
+        <div class="mt-4">
+            <a href="{{ route('users.index') }}" class="btn btn-primary">Kelola User</a>
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kelola Post</a>
+            <a href="{{ route('profile.index') }}" class="btn btn-info">Profil</a>
         </div>
-    </div>
-</x-app-layout>
+
+    @elseif (Auth::user()->role == 2)
+        {{-- Halaman untuk user biasa --}}
+        <h3>Halo, {{ Auth::user()->username }} 👋</h3>
+        <p>Selamat datang di dashboard kamu. Kamu bisa membuat dan melihat post, serta mengatur profilmu.</p>
+
+        <div class="mt-4">
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Lihat Post</a>
+            <a href="{{ route('profile.index') }}" class="btn btn-info">Profil</a>
+        </div>
+    @endif
+</div>
+@endsection
+
+
+@push('scripts')
+@endpush

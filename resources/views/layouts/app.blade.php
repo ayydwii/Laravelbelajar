@@ -27,8 +27,8 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                href="{{ route('home') }}">
-                                <span data-feather="home" style="color: #f8fafc;"></span>
+                                href="{{ route('dashboard') }}">
+                                <span data-feather="dashboard" style="color: #f8fafc;"></span>
                                 Dashboard
                             </a>
                         </li>

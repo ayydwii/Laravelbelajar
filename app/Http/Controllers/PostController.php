@@ -16,6 +16,11 @@ class PostController extends Controller
         $this->middleware('auth');
     }
 
+    public function publicIndex()
+    {
+        $posts = Post::with('user')->latest()->paginate(6);
+        return view('posts.public-index', compact('posts'));
+    }
 
     public function index(Request $request)
     {

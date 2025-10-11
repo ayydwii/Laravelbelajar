@@ -1,19 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.blog')
 
 @push('styles')
 @endpush
 
-@section('title', 'Semua Post')
-@section('header-title', 'Semua Post')
+{{-- @section('title', 'Dashboard')
+@section('header-title', 'Dashboard') --}}
 
 @section('content')
 <div class="container py-5">
 
     <!-- Header: Tombol Tambah + Pencarian -->
     <div class="d-flex justify-content-between align-items-center mb-5">
-        <a href="{{ route('posts.create') }}" class="btn btn-success">
-            Tambah Post
-        </a>
 
         <form action="{{ route('posts.index') }}" method="GET" class="d-flex" style="width: 250px; gap: 8px;">
             <input type="text" name="search" value="{{ request('search') }}"
@@ -23,7 +20,7 @@
         </form>
     </div>
 
-    <!-- Grid Post -->
+    <!-- Grid Blog -->
     <div class="row g-4">
         @forelse ($posts as $post)
             <div class="col-md-4">
@@ -52,3 +49,7 @@
     </div>
 </div>
 @endsection
+
+
+@push('scripts')
+@endpush

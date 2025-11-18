@@ -45,13 +45,17 @@
 
                 {{-- Tanggal Publish --}}
                 <div class="mb-3">
-                    <label class="form-label">Tanggal Publish</label>
-                    <input type="date" name="publish_date" class="form-control" value="{{ old('publish_date') }}">
+                    <label for="published_at" class="form-label">Tanggal Publish</label>
+                    <input type="date" name="published_at" id="published_at" class="form-control"
+                        value="{{ old('published_at', date('Y-m-d')) }}">
                 </div>
 
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" value="1">
-                    <label for="is_featured" class="form-check-label">Tandai sebagai featured</label>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>Publish</option>
+                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                    </select>
                 </div>
 
                 {{-- Tombol --}}

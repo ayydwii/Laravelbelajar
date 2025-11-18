@@ -15,11 +15,11 @@
         <div class="nav-item text-nowrap">
 
         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-            @csrf
-            <button type="submit" class="btn btn-danger btn-sm">
-                Logout
-            </button>
-        </form>
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">
+            Logout
+        </button>
+    </form>
 
 
 

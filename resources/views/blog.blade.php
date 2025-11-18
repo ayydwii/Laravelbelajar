@@ -47,6 +47,11 @@
             <p class="text-center">Tidak ada post ditemukan.</p>
         @endforelse
     </div>
+
+    <div class="mt-4">
+        {{ $posts->links() }}
+    </div>
+
 </div>
 @endsection
 

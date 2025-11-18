@@ -4,6 +4,26 @@ body {
     min-height: 100vh;
 }
 
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -28,68 +48,62 @@ body {
     vertical-align: text-bottom;
 }
 
-/*
- * Sidebar
- */
-
-.sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.05);
-    background-color: #16273C !important;
-    color: #f8fafc !important;
-}
-
-@media (max-width: 767.98px) {
+/* Sidebar styling */
     .sidebar {
-        top: 5rem;
+        background-color: #fff; /* putih */
+        min-height: 100vh;
+        border-right: 1px solid #dee2e6; /* border tipis supaya terlihat */
     }
-}
 
-.sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: 0.5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
+    .sidebar .nav-link {
+        color: #0d6efd; /* biru untuk link tidak aktif */
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin: 4px 8px;
+        transition: 0.2s;
+    }
 
-.sidebar .nav-link {
-    color: #f8fafc !important;
-    font-weight: 500;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
+    /* Hover link */
+    .sidebar .nav-link:hover {
+        background-color: #cfe2ff; /* biru terang saat hover */
+        color: #0d6efd;
+    }
 
-.sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: #727272;
-}
+    /* Link aktif */
+    .sidebar .nav-link.active {
+        background-color: #0d6efd; /* biru gelap */
+        color: #fff;
+    }
 
-/* Efek hover sidebar item */
-.sidebar .nav-link:hover {
-    background-color: #1D425F !important;
-    color: #ffffff !important; /* tetap putih saat hover */
-}
+    /* Main content card */
+    main {
+        background: #fff;
+        color: #222;
+        border-radius: 12px;
+        margin-top: 16px;
+        padding: 24px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-/* Biar link aktif juga keliatan */
-.sidebar .nav-link.active {
-    background-color: #1D425F !important;
-    color: #ffffff !important;
-}
+    /* Table styling */
+    table {
+        border-radius: 8px;
+        overflow: hidden;
+    }
 
-.sidebar-heading {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: #f8fafc !important;
-}
+    table thead {
+        background-color: #0d6efd;
+        color: #fff;
+    }
 
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        main {
+            margin-top: 8px;
+            padding: 16px;
+        }
+    }
 /*
  * Navbar
  */
@@ -152,6 +166,26 @@ body {
     background-color: #6366f1 !important;
 }
 
+.dashboard-card {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-card h3 {
+        color: #0d6efd;
+        margin-bottom: 8px;
+    }
+
+    .dashboard-card p {
+        color: #495057;
+    }
+
+    .dashboard-card .btn {
+        min-width: 130px;
+    }
+
 .form-control {
     background-color: #f8fafc !important;
     color: #222 !important;
@@ -192,3 +226,174 @@ h1, h2, h3, h4, h5, h6, p, label, .sidebar-heading {
     object-fit: cover;
     border-radius: 6px;
 }
+
+
+.edit-post-card {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .edit-post-card h2 {
+        color: #0d6efd;
+        margin-bottom: 20px;
+    }
+
+    .edit-post-card img {
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .edit-post-card .btn {
+        min-width: 150px;
+    }
+
+/* Biar grid-nya rapi di semua ukuran layar */
+@media (min-width: 576px) {
+    .post-card {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .post-card {
+        max-width: 100%;
+    }
+}
+
+.post-detail-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 24px;
+    }
+
+    .post-detail-card img {
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .post-detail-card h2 {
+        color: #0d6efd;
+        margin-top: 16px;
+        margin-bottom: 8px;
+    }
+
+    .post-detail-card .meta {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .post-detail-card .btn {
+        min-width: 120px;
+    }
+
+
+/* == PROFILE == */
+.profile-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.profile-card {
+    flex: 1 1 420px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* .profile-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+} */
+
+.profile-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.profile-card p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.profile-card .form-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.profile-card input.form-control {
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    padding: 10px;
+}
+
+.profile-card button {
+    background-color: #1e3a8a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.profile-card button:hover {
+    background-color: #1d4ed8;
+}
+
+.delete-btn {
+    background-color: #dc2626;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.delete-btn:hover {
+    background-color: #b91c1c;
+    transform: scale(1.03);
+}
+
+/* Tombol Perbarui (biru default Bootstrap) tetap aman */
+.btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+}
+
+/* Jarak dari bawah biar nggak mepet footer */
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+.card {
+    border-radius: 10px;
+}
+
+.card h5 {
+    font-size: 1.1rem;
+}
+
+.btn {
+    border-radius: 6px;
+}
+
+
+

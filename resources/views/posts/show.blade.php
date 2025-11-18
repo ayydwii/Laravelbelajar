@@ -1,23 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Post')
-@section('header-title', 'Detail Post')
+@push('styles')
+@endpush
 
 @section('content')
-<div class="container my-5">
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <h1 class="mb-3">{{ $post->title }}</h1>
-            <p class="text-muted">
-                Oleh <strong>{{ $post->user->name ?? 'Tidak diketahui' }}</strong>
-                | Dipublikasikan pada {{ \Carbon\Carbon::parse($post->publish_date)->translatedFormat('d F Y') }}
-            </p>
-            <hr>
-            <p class="fs-5">{{ $post->content }}</p>
+<div class="container py-5">
+    <div class="post-detail-card mx-auto" style="max-width: 800px;">
+        @if ($post->image)
+            <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}">
+        @endif
 
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary mt-4">
-                ← Kembali ke daftar post
-            </a>
+        <h2 class="fw-bold">{{ $post->title }}</h2>
+        <p class="meta mb-3">Oleh {{ $post->user->name ?? 'Tidak diketahui' }} | {{ $post->created_at->format('d M Y') }}</p>
+
+        <div class="mb-4" style="font-size: 15px; line-height: 1.6;">
+            {!! nl2br(e($post->content)) !!}
+        </div>
+
+        <!-- Tombol aksi -->
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary fw-bold">← Kembali</a>
+
+            
         </div>
     </div>
 </div>

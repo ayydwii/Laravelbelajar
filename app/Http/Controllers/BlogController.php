@@ -7,58 +7,42 @@ use App\Models\Post;
 
 class BlogController extends Controller
 {
-
-    public function index(Request $request)
+    /**
+     * Halaman publik (bisa diakses siapa saja)
+     */
+    public function index()
     {
-        $search = $request->input('search');
+        // Ambil semua post yang status-nya publish, urut terbaru dulu
+        $posts = Post::where('status', 'publish')->latest()->get();
 
-        $query = Post::with('user')->latest();
+        return view('public/posts.index', compact('posts'));
+    }
 
-        if ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
-                ->orWhere('content', 'like', '%' . $search . '%');
+
+
+    public function public()
+    {
+        // Ambil semua post yang sudah publish
+        $posts = \App\Models\Post::with('user')
+            ->where('status', 'publish')
+            ->latest()
+            ->get();
+
+        return view('blogs.public', compact('posts'));
+    }
+
+
+    public function show($id)
+    {
+        $post = Post::with('user')->findOrFail($id);
+
+        // Jika status-nya draft, jangan tampilkan ke publik
+        if ($post->status === 'draft' && (!auth()->check() || auth()->user()->role !== 'admin')) {
+            abort(403, 'Post ini belum dipublikasikan.');
         }
 
-        $posts = $query->paginate(6);
-        return view('blog', [
-            'posts' => $posts,
-            'search' => $search,
-        ]);
+        return view('blogs.show', compact('post'));
     }
 
 
-    public function create()
-    {
-        //
-    }
-
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function show(string $id)
-    {
-        //
-    }
-
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }
